@@ -1,34 +1,38 @@
-name: FlyTicket Build and Deploy
+name: Build Report Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
 
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Build Step
-      run: echo "Building FlyTicket Project..."
+      - name: Build Project
+        run: echo "Build completed"
 
-    - name: Build Report
-      run: echo "Build Status: SUCCESS"
-
+  report-build-status:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report Build Status
+        run: echo "Build successful"
 
   deploy:
+    needs: report-build-status
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+      - name: Deploy Project
+        run: echo "Deployment completed"
 
-    - name: Deploy Step
-      run: echo "Deploying FlyTicket Website..."
-
-    - name: Deploy Report
-      run: echo "Deployment Status: SUCCESS"
+  deploy-report:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Report
+        run: echo "Deployment successful"
